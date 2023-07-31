@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: Unlicense
-pragma solidity ^0.8.21;
+pragma solidity ^0.8.19;
 
 contract SocialNetwork {
     struct User {
@@ -34,12 +34,17 @@ contract SocialNetwork {
         _;
     }
 
-    modifier requireAccount(address author) {
-        require(bytes(users[author].username).length > 0);
+    modifier requireNewUser(address userAddress) {
+        require(bytes(users[userAddress].username).length <= 0);
         _;
     }
 
-    function registerNewUser(address userAddress, string memory username, string memory avatarUrl) public requireNonEmpty(username) {
+    modifier requireAccount(address userAddress) {
+        require(bytes(users[userAddress].username).length > 0);
+        _;
+    }
+
+    function registerNewUser(address userAddress, string memory username, string memory avatarUrl) public requireNonEmpty(username) requireNewUser(userAddress) {
         User memory user = User(userAddress, username, avatarUrl);
         users[userAddress] = user;
         emit NewUser(user);

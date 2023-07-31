@@ -1,11 +1,7 @@
 async function deploy() {
     const [deployer] = await ethers.getSigners();
-
     console.log("Deploying contracts with the account:", deployer.address);
-
-    const token = await ethers.deployContract("SocialNetwork");
-
-    console.log("Token address:", await token.getAddress());
+    await ethers.deployContract("SocialNetwork");
 }
 
 deploy()
