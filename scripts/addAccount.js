@@ -1,5 +1,4 @@
 require("dotenv").config();
-const { ethers } = require("hardhat")
 const contract = require("../artifacts/contracts/socialNetwork.sol/SocialNetwork.json");
 
 const API_KEY = process.env.API_KEY;
@@ -16,11 +15,11 @@ async function main() {
     await tx.wait();
     console.log("New account created");
 
-    // console.log("Sending new post");
-    // tx = await contractInstance.createNewPost("0xfb809c4cf09BF87283BF1cAd1002077E85715e2f", "Hello world", Date.now());
-    // console.log("Creating new post");
-    // await tx.wait();
-    // console.log("New post created");
+    console.log("Sending new post");
+    tx = await contractInstance.createNewPost("0xfb809c4cf09BF87283BF1cAd1002077E85715e2f", "Hello world", Date.now());
+    console.log("Creating new post");
+    await tx.wait();
+    console.log("New post created");
 }
 
 main();
