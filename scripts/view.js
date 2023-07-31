@@ -6,7 +6,7 @@ const PRIVATE_KEY = process.env.PRIVATE_KEY;
 const CONTRACT_ADDRESS = process.env.CONTRACT_ADDRESS;
 
 // provider - Alchemy
-const provider = new ethers.providers.InfuraProvider(network = "sepolia", API_KEY);
+const provider = new ethers.InfuraProvider(network = "sepolia", API_KEY);
 
 // signer - you
 const signer = new ethers.Wallet(PRIVATE_KEY, provider);
