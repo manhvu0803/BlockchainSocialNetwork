@@ -15,15 +15,29 @@ contract SocialNetwork {
         address author;
     }
 
+    struct Comment {
+        uint id;
+        uint postId;
+        string content;
+        uint timestamp;
+        address author;
+    }
+
     uint postCount;
+
+    uint commentCount;
 
     mapping (address => User) public users;
 
     mapping (uint => Post) public posts;
 
+    mapping (uint => Comment) public comments;
+
     event NewUser(User account);
 
     event NewPost(Post post);
+
+    event NewComment(Comment comment);
 
     constructor() {
         postCount = 0;
@@ -55,5 +69,12 @@ contract SocialNetwork {
         Post memory post = Post(postCount, content, timestamp, author);
         posts[postCount] = post;
         emit NewPost(post);
+    }
+
+    function addComment(address author, uint postId, string memory content, uint timestamp) public requireAccount(author) {
+        commentCount++;
+        Comment memory comment = Comment(commentCount, postId, content, timestamp, author);
+        comments[commentCount] = comment;
+        emit NewComment(comment);
     }
 }
