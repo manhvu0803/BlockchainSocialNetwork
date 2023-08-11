@@ -1,0 +1,27 @@
+specVersion: 0.0.5
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: SocialNetwork
+    network: sepolia
+    source:
+      address: "0x13d944cB6BF1b34549bBf4507115315365734823"
+      abi: SocialNetwork
+      startBlock: 0
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - NewPost
+        - NewUser
+      abis:
+        - name: SocialNetwork
+          file: ./abis/SocialNetwork.json
+      eventHandlers:
+        - event: NewPost((uint256,string,uint256,address))
+          handler: handleNewPost
+        - event: NewUser((address,string,string))
+          handler: handleNewUser
+      file: ./src/social-network.ts

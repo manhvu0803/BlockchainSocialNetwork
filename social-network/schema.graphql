@@ -1,0 +1,20 @@
+type NewPost @entity(immutable: true) {
+  id: Bytes!
+  post_id: BigInt! # uint256
+  post_content: String! # string
+  post_timestamp: BigInt! # uint256
+  post_author: Bytes! # address
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type NewUser @entity(immutable: true) {
+  id: Bytes!
+  account_userAddress: Bytes! # address
+  account_username: String! # string
+  account_avatarUrl: String! # string
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
