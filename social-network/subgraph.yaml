@@ -6,7 +6,7 @@ dataSources:
     name: SocialNetwork
     network: sepolia
     source:
-      address: "0x13d944cB6BF1b34549bBf4507115315365734823"
+      address: "0x9e0A242268569d04CE1fd638ad7Af2DD61Ad75A8"
       abi: SocialNetwork
       startBlock: 0
     mapping:
@@ -14,14 +14,23 @@ dataSources:
       apiVersion: 0.0.7
       language: wasm/assemblyscript
       entities:
+        - LikeStatusChanged
+        - NewComment
         - NewPost
         - NewUser
+        - UserInfoChanged
       abis:
         - name: SocialNetwork
           file: ./abis/SocialNetwork.json
       eventHandlers:
+        - event: LikeStatusChanged((address,string,string),(uint256,string,uint256,address),bool)
+          handler: handleLikeStatusChanged
+        - event: NewComment((uint256,uint256,string,uint256,address))
+          handler: handleNewComment
         - event: NewPost((uint256,string,uint256,address))
           handler: handleNewPost
         - event: NewUser((address,string,string))
           handler: handleNewUser
+        - event: UserInfoChanged((address,string,string))
+          handler: handleUserInfoChanged
       file: ./src/social-network.ts

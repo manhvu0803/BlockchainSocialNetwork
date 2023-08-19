@@ -2,3 +2,5 @@ node_modules/
 artifacts/
 cache/
 .env
+social-network/generated/
+social-network/build/

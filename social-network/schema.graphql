@@ -1,19 +1,42 @@
-type NewPost @entity(immutable: true) {
+type User @entity {
   id: Bytes!
-  post_id: BigInt! # uint256
-  post_content: String! # string
-  post_timestamp: BigInt! # uint256
-  post_author: Bytes! # address
+  username: String! # string
+  avatarUrl: String! # string
+  likes: [Like!]! @derivedFrom(field: "author")
+  posts: [Post!]! @derivedFrom(field: "author")
   blockNumber: BigInt!
   blockTimestamp: BigInt!
   transactionHash: Bytes!
 }
 
-type NewUser @entity(immutable: true) {
-  id: Bytes!
-  account_userAddress: Bytes! # address
-  account_username: String! # string
-  account_avatarUrl: String! # string
+
+type Post @entity(immutable: true) {
+  id: String!
+  content: String! # string
+  timestamp: BigInt! # uint256
+  author: User! # address
+  liker: [Like!]! @derivedFrom(field: "post")
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type Like @entity {
+  id: String!
+  author: User!
+  post: Post!
+  isLiked: Boolean! # bool
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type Comment @entity(immutable: true) {
+  id: String!
+  post: Post!
+  content: String! # string
+  timestamp: BigInt! # uint256
+  author: User!
   blockNumber: BigInt!
   blockTimestamp: BigInt!
   transactionHash: Bytes!
