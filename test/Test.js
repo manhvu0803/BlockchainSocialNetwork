@@ -22,6 +22,34 @@ describe("Social network", () => {
     it("Create new post", async () => {
         const { owner, contract } = await loadFixture(deployFixture);
         await contract.registerNewUser(owner.address, "testName", "https://fastly.picsum.photos/id/1051/200/300.jpg?hmac=l1jFNN1wGY2r8gVAipnoabHxa9LKBSoOTznSjOYWsUY");
-        expect(contract.createNewPost(owner.address, "testPost", Date.now())).to.emit(contract, "NewPost");
+        expect(contract.createNewPost(owner.address, "testPost", Date.now()))
+            .to.emit(contract, "NewPost");
+    });
+
+    it("Add comment", async () => {
+        const { owner, contract } = await loadFixture(deployFixture);
+        await contract.registerNewUser(owner.address, "testName", "");
+        await contract.createNewPost(owner.address, "testPost", Date.now());
+        expect(contract.addComment(owner.address, 1, "test comment", Date.now()))
+            .to.emit(contract, "NewComment");
+    });
+
+    it("Like", async () => {
+        const { owner, contract } = await loadFixture(deployFixture);
+        await contract.registerNewUser(owner.address, "testName", "");
+        await contract.createNewPost(owner.address, "testPost", Date.now());
+        expect(contract.toggleLike(owner.address, 1))
+            .to.emit(contract, "LikeStatusChanged")
+            .withArgs(owner.address, 1, true);
+    });
+
+    it("Update user info", async () => {
+        const { owner, contract } = await loadFixture(deployFixture);
+        await contract.registerNewUser(owner.address, "testName", "https://fastly.picsum.photos/id/1051/200/300.jpg?hmac=l1jFNN1wGY2r8gVAipnoabHxa9LKBSoOTznSjOYWsUY");
+
+        let newName = "updatedName";
+        await contract.updateUserinfo(owner.address, newName, "");
+        let user = await contract.users(owner.address);
+        expect(user[1]).to.equal(newName);
     });
 })
