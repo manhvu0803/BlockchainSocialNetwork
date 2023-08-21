@@ -4,11 +4,11 @@ type User @entity {
   avatarUrl: String! # string
   likes: [Like!]! @derivedFrom(field: "author")
   posts: [Post!]! @derivedFrom(field: "author")
+  comments: [Comment!]! @derivedFrom(field: "author")
   blockNumber: BigInt!
   blockTimestamp: BigInt!
   transactionHash: Bytes!
 }
-
 
 type Post @entity(immutable: true) {
   id: String!
@@ -16,6 +16,7 @@ type Post @entity(immutable: true) {
   timestamp: BigInt! # uint256
   author: User! # address
   liker: [Like!]! @derivedFrom(field: "post")
+  comments: [Comment!]! @derivedFrom(field: "post")
   blockNumber: BigInt!
   blockTimestamp: BigInt!
   transactionHash: Bytes!
